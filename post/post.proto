@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package post;
+
+// ✅ FIX THIS LINE:
+option go_package = "post/postpb";
+
+service PostService {
+  rpc CreatePost(PostRequest) returns (PostResponse);
+  rpc GetPost(GetPostRequest) returns (PostResponse);
+}
+
+message PostRequest {
+  string title = 1;
+  string content = 2;
+  int32 userId = 3;
+}
+
+message GetPostRequest {
+  int32 id = 1;
+}
+
+message PostResponse {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+  int32 userId = 4;
+  string userName = 5;
+  string userEmail = 6;
+}

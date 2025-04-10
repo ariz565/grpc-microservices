@@ -1,0 +1,26 @@
+# Dockerfile.user
+
+# Build stage
+FROM golang:1.23.0-alpine AS builder
+# ^ No extra spaces before or after AS
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+
+RUN go mod download
+
+COPY user/ ./user/
+COPY user/userpb/ ./user/userpb/
+
+RUN go build -o /userapp ./user/main.go
+
+# Run stage
+FROM alpine
+
+WORKDIR /root/
+
+COPY --from=builder /userapp .
+
+CMD ["./userapp"]

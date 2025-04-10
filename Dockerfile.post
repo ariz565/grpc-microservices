@@ -1,0 +1,23 @@
+# Build stage
+FROM golang:1.23.0-alpine AS builder
+
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY post/ ./post/
+COPY post/postpb/ ./post/postpb/
+COPY user/userpb/ ./user/userpb/ 
+
+RUN go build -o /postapp ./post/main.go
+
+# Run stage
+FROM alpine:latest  
+WORKDIR /root/
+COPY --from=builder /postapp .
+
+EXPOSE 50052
+CMD ["./postapp"]

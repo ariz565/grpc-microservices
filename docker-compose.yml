@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.user
+    ports:
+      - "50051:50051"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  post-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.post
+    ports:
+      - "50052:50052"
+    depends_on:
+      - user-service
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package user;
+
+// ✅ FIX THIS LINE:
+option go_package = "user/userpb";
+
+service UserService {
+  rpc GetUser(UserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+  int32 id = 1;
+}
+
+message UserResponse {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
